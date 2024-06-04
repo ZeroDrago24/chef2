@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recetas - Web-Chef Zero</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="index.html">Web-Chef Zero</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="about.html">Sobre Mí</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="recipes.html">Recetas</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="blog.html">Blog</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="contact.html">Contacto</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="restaurant.html">Restaurante</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="login.html">Iniciar Sesión</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        input, button {
+            margin: 10px 0;
+            padding: 10px;
+            font-size: 16px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            padding: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Buscar Receta</h1>
+    <input type="text" id="nombre" placeholder="Ingrese el nombre de la receta">
+    <button onclick="buscar()">Buscar</button>
+
+    <h2 id="title"></h2>
+    <h3 id="ingredientes">Ingredientes</h3>
+    <div id="lista_ingredientes"></div>
+    <h3 id="preparacion">Preparación</h3>
+    <div id="preparacion_texto"></div>
+
+    <script>
+        let recetario = [
+            {
+                nombre: "PIQUE MACHO",
+                ingredientes: [
+                    "1/2 kilo carne suave, lomo o pulpa",
+                    "8 chorizos de freír",
+                    "8 papas imilla",
+                    "3 tomates",
+                    "1 locoto verde",
+                    "1 cebolla colorada",
+                    "1 lata de cerveza",
+                    "2 cucharadas de salsa soya",
+                    "Pimienta negra y sal"
+                ],
+                preparacion: "1. Pelar y picar las papas en 4 pedazos grandes y freírlas hasta dorar. Cortar el tomate en rodajas grandes. Picar la cebolla en juliana. Posteriormente, calentar una cucharada de aceite en una sartén bien caliente y colocar la carne cortada en cubos, sazonada con bastante pimienta negra y poca sal. Esto junto a la cebolla freír hasta que suelten sus jugos. Después agregar la salsa de soya y media lata de cerveza. 2. Cuando esté cocida la carne y haya tomado color, cortar los chorizos y freír junto a la carne. Por otra parte, freír las papas en aceite caliente, sacarlas del fuego y servir en un plato. Colocar encima la preparación de carne y salchicha con sus jugos y servir finalmente con tomate cortado y locoto picado finamente. De forma opcional se puede adornar con huevo duro."
+            },
+            {
+                nombre: "SALTEÑA",
+                ingredientes: [
+                    "500 gramos de harina",
+                    "200 gramos de manteca",
+                    "2 huevos",
+                    "1 taza de agua",
+                    "Sal",
+                    "500 gramos de carne (res o pollo)",
+                    "1 cebolla",
+                    "3 papas",
+                    "1 taza de arvejas",
+                    "1/2 taza de pasas",
+                    "Aceitunas",
+                    "Condimentos al gusto (comino, pimienta, ají)"
+                ],
+                preparacion: "1. Para la masa: mezclar la harina con la manteca derretida, los huevos, la sal y el agua hasta obtener una masa homogénea. Dejar reposar. 2. Para el relleno: cocinar la carne con la cebolla picada y los condimentos. Agregar las papas, arvejas, pasas y aceitunas. 3. Formar las salteñas: estirar la masa, cortar en círculos, rellenar y cerrar. 4. Hornear a 180°C por aproximadamente 20-25 minutos hasta que estén doradas."
+            },
+            {
+                nombre: "SOPA DE MANÍ",
+                ingredientes: [
+                    "200 gramos de maní",
+                    "500 gramos de carne de res",
+                    "2 zanahorias",
+                    "2 papas",
+                    "1/2 taza de arvejas",
+                    "1 cebolla",
+                    "2 dientes de ajo",
+                    "1 ramita de apio",
+                    "1 taza de arroz",
+                    "Sal y pimienta",
+                    "Aceite",
+                    "Agua"
+                ],
+                preparacion: "1. Remojar el maní en agua durante la noche y luego licuarlo con un poco de agua. 2. En una olla, freír la cebolla y el ajo picados en un poco de aceite. Agregar la carne cortada en trozos y cocinar hasta dorar. 3. Añadir el maní licuado, las zanahorias y papas cortadas en cubos, las arvejas y el apio. 4. Agregar suficiente agua para cubrir todos los ingredientes y dejar cocinar a fuego medio. 5. Añadir el arroz y cocinar hasta que todos los ingredientes estén tiernos. Salpimentar al gusto."
+            },
+            {
+                nombre: "SILPANCHO",
+                ingredientes: [
+                    "500 gramos de carne molida",
+                    "4 papas",
+                    "2 cebollas",
+                    "2 tomates",
+                    "4 huevos",
+                    "Arroz",
+                    "Pan molido",
+                    "Aceite",
+                    "Sal y pimienta",
+                    "Perejil"
+                ],
+                preparacion: "1. Cocinar el arroz y reservar. 2. Freír las papas en rodajas hasta que estén doradas. 3. Amasar la carne molida, formar bistecs delgados y empanizarlos con pan molido. Freír hasta dorar. 4. Picar la cebolla y el tomate en cubos pequeños y mezclar con perejil picado. 5. Freír los huevos. 6. Servir el silpancho: colocar una base de arroz, encima las papas fritas, luego la carne y finalmente el huevo frito. Acompañar con la ensalada de cebolla y tomate."
+            },
+            {
+                nombre: "CHARQUEKAN",
+                ingredientes: [
+                    "500 gramos de charque de llama",
+                    "4 papas",
+                    "1 taza de mote",
+                    "1 taza de chuño",
+                    "1 cebolla",
+                    "Aceite",
+                    "Sal y pimienta"
+                ],
+                preparacion: "1. Desalar el charque remojándolo en agua durante la noche. Luego, cocinarlo hasta que esté tierno y desmenuzarlo. 2. Freír las papas en rodajas. 3. Cocinar el mote y el chuño por separado hasta que estén tiernos. 4. Picar la cebolla y freírla en un poco de aceite. 5. Servir el charque acompañado de las papas fritas, mote, chuño y cebolla frita."
+            },
+            {
+                nombre: "ANTICUCHO",
+                ingredientes: [
+                    "500 gramos de corazón de res",
+                    "4 papas",
+                    "Palitos de brocheta",
+                    "1 taza de ají amarillo molido",
+                    "2 dientes de ajo",
+                    "1 cebolla",
+                    "1 taza de vinagre",
+                    "Aceite",
+                    "Sal y pimienta"
+                ],
+                preparacion: "1. Limpiar y cortar el corazón de res en trozos medianos. 2. Preparar una marinada con ají amarillo molido, ajo picado, cebolla picada, vinagre, aceite, sal y pimienta. 3. Marinar el corazón durante unas horas. 4. Ensartar los trozos de corazón en los palitos de brocheta. 5. Asar los anticuchos en una parrilla hasta que estén cocidos y dorados. 6. Servir con papas cocidas y salsa de ají."
+            },
+            {
+                nombre: "API CON PASTEL",
+                ingredientes: [
+                    "500 gramos de maíz morado",
+                    "1 rama de canela",
+                    "5 clavos de olor",
+                    "Azúcar al gusto",
+                    "Limón",
+                    "500 gramos de harina",
+                    "200 gramos de manteca",
+                    "1 taza de leche",
+                    "1 cucharadita de sal",
+                    "Aceite para freír"
+                ],
+                preparacion: "1. Cocinar el maíz morado con canela y clavo de olor en suficiente agua hasta que esté bien cocido. Colar y reservar el líquido. 2. Endulzar el líquido con azúcar y añadir un poco de jugo de limón. 3. Para los pasteles: mezclar la harina con la manteca, leche y sal hasta formar una masa suave. Estirar la masa, cortar en círculos y freír en aceite caliente hasta dorar. 4. Servir el api caliente acompañado de los pasteles fritos."
+            },
+            {
+                nombre: "MAJADITO",
+                ingredientes: [
+                    "500 gramos de charque desmenuzado",
+                    "2 tazas de arroz",
+                    "2 plátanos",
+                    "1 cebolla",
+                    "2 dientes de ajo",
+                    "1 pimentón",
+                    "Aceite",
+                    "Sal y pimienta"
+                ],
+                preparacion: "1. Freír la cebolla, ajo y pimentón picados en un poco de aceite. 2. Añadir el charque desmenuzado y cocinar por unos minutos. 3. Incorporar el arroz y suficiente agua para cocinarlo. 4. Cocinar a fuego medio hasta que el arroz esté tierno. 5. Freír los plátanos en rodajas. 6. Servir el majadito acompañado de los plátanos fritos."
+            },
+            {
+                nombre: "SAJTA DE POLLO",
+                ingredientes: [
+                    "1 pollo entero",
+                    "4 papas",
+                    "1 taza de arvejas",
+                    "1 cebolla",
+                    "2 dientes de ajo",
+                    "1 taza de ají amarillo molido",
+                    "Aceite",
+                    "Sal y pimienta",
+                    "Perejil"
+                ],
+                preparacion: "1. Cortar el pollo en presas y cocinar en agua con sal hasta que esté tierno. 2. En una olla grande, freír la cebolla y el ajo picados en un poco de aceite. 3. Añadir el ají amarillo molido y cocinar por unos minutos. 4. Incorporar el pollo cocido y las papas cortadas en cubos. 5. Añadir las arvejas y suficiente agua para cubrir los ingredientes. 6. Cocinar a fuego medio hasta que las papas estén tiernas. Salpimentar al gusto y servir espolvoreado con perejil picado."
+            },
+            {
+                nombre: "LAGUA DE MAÍZ",
+                ingredientes: [
+                    "2 tazas de maíz pelado",
+                    "1 cebolla",
+                    "1 zanahoria",
+                    "2 papas",
+                    "1 ramita de apio",
+                    "2 dientes de ajo",
+                    "Aceite",
+                    "Sal y pimienta",
+                    "Perejil"
+                ],
+                preparacion: "1. Cocinar el maíz en agua hasta que esté tierno. 2. En una olla, freír la cebolla, ajo y zanahoria picados en un poco de aceite. 3. Añadir las papas cortadas en cubos y el apio picado. 4. Incorporar el maíz cocido y suficiente agua para cubrir los ingredientes. 5. Cocinar a fuego medio hasta que todos los ingredientes estén tiernos. Salpimentar al gusto y servir espolvoreado con perejil picado."
+            },
+            {
+                nombre: "SAICE",
+                ingredientes: [
+                    "500 gramos de carne de res",
+                    "4 papas",
+                    "1 taza de arvejas",
+                    "1 cebolla",
+                    "2 dientes de ajo",
+                    "1 taza de ají rojo molido",
+                    "Aceite",
+                    "Sal y pimienta",
+                    "Perejil"
+                ],
+                preparacion: "1. En una olla grande, freír la cebolla y el ajo picados en un poco de aceite. 2. Añadir la carne de res cortada en trozos y cocinar hasta dorar. 3. Agregar el ají rojo molido y cocinar por unos minutos. 4. Incorporar las papas cortadas en cubos y las arvejas. 5. Añadir suficiente agua para cubrir los ingredientes y cocinar a fuego medio. 6. Cocinar hasta que las papas estén tiernas. Salpimentar al gusto y servir espolvoreado con perejil picado."
+            },
+            {
+                nombre: "PESQ'E DE QUINUA",
+                ingredientes: [
+                    "1 taza de quinua",
+                    "2 zanahorias",
+                    "2 papas",
+                    "1 cebolla",
+                    "2 dientes de ajo",
+                    "1 ramita de apio",
+                    "1 taza de arvejas",
+                    "Aceite",
+                    "Sal y pimienta",
+                    "Perejil"
+                ],
+                preparacion: "1. Enjuagar la quinua y cocinarla en agua con sal hasta que esté tierna. 2. En una olla, freír la cebolla y el ajo picados en un poco de aceite. 3. Añadir las zanahorias y papas picadas en cubos, y el apio picado. 4. Agregar suficiente agua para cubrir todos los ingredientes y dejar cocinar a fuego medio. 5. Incorporar las arvejas y la quinua cocida. 6. Cocinar hasta que todos los ingredientes estén tiernos. Salpimentar al gusto y servir espolvoreado con perejil picado."
+            },
+            {
+                nombre: "CHICHARRÓN",
+                ingredientes: [
+                    "1 kilo de carne de cerdo",
+                    "4 papas",
+                    "1 taza de mote",
+                    "1 limón",
+                    "Aceite",
+                    "Sal"
+                ],
+                preparacion: "1. Cortar la carne de cerdo en trozos medianos. 2. En una olla grande, cocinar la carne con un poco de agua y sal hasta que se evapore el agua y la carne comience a dorarse en su propia grasa. 3. Freír las papas en rodajas. 4. Cocinar el mote en agua con sal hasta que esté tierno. 5. Servir el chicharrón acompañado de papas fritas, mote y rodajas de limón."
+            },
+            {
+                nombre: "FRICASÉ",
+                ingredientes: [
+                    "1 kilo de carne de cerdo",
+                    "4 papas",
+                    "1 taza de mote",
+                    "1 taza de ají amarillo molido",
+                    "2 dientes de ajo",
+                    "1 cebolla",
+                    "Aceite",
+                    "Sal y pimienta"
+                ],
+                preparacion: "1. En una olla grande, freír la cebolla y el ajo picados en un poco de aceite. 2. Añadir la carne de cerdo cortada en trozos y cocinar hasta dorar. 3. Agregar el ají amarillo molido y suficiente agua para cubrir la carne. 4. Cocinar a fuego medio hasta que la carne esté tierna. 5. Freír las papas en rodajas. 6. Cocinar el mote en agua con sal hasta que esté tierno. 7. Servir el fricasé acompañado de papas fritas y mote."
+            },
+            {
+                nombre: "TRANCAPECHO",
+                ingredientes: [
+                    "500 gramos de carne de res",
+                    "4 papas",
+                    "2 cebollas",
+                    "2 tomates",
+                    "4 huevos",
+                    "Arroz",
+                    "Pan molido",
+                    "Aceite",
+                    "Sal y pimienta",
+                    "Perejil"
+                ],
+                preparacion: "1. Cocinar el arroz y reservar. 2. Freír las papas en rodajas hasta que estén doradas. 3. Amasar la carne de res, formar bistecs delgados y empanizarlos con pan molido. Freír hasta dorar. 4. Picar la cebolla y el tomate en cubos pequeños y mezclar con perejil picado. 5. Freír los huevos. 6. Servir el trancapecho: colocar una base de arroz, encima las papas fritas, luego la carne y finalmente el huevo frito. Acompañar con la ensalada de cebolla y tomate."
+            },
+            {
+                nombre: "AJÍ DE LENGUA",
+                ingredientes: [
+                    "1 lengua de res",
+                    "4 papas",
+                    "1 taza de arvejas",
+                    "1 cebolla",
+                    "2 dientes de ajo",
+                    "1 taza de ají amarillo molido",
+                    "Aceite",
+                    "Sal y pimienta",
+                    "Perejil"
+                ],
+                preparacion: "1. Cocinar la lengua de res en agua con sal hasta que esté tierna. Pelar y cortar en rodajas. 2. En una olla, freír la cebolla y el ajo picados en un poco de aceite. 3. Añadir el ají amarillo molido y cocinar por unos minutos. 4. Agregar las papas cortadas en cubos y las arvejas. 5. Añadir suficiente agua para cubrir los ingredientes y cocinar a fuego medio. 6. Incorporar las rodajas de lengua y cocinar hasta que las papas estén tiernas. Salpimentar al gusto y servir espolvoreado con perejil picado."
+            },
+            {
+                nombre: "CHAIRO",
+                ingredientes: [
+                    "500 gramos de carne de res",
+                    "2 zanahorias",
+                    "2 papas",
+                    "1 taza de chuño",
+                    "1/2 taza de arvejas",
+                    "1 cebolla",
+                    "2 dientes de ajo",
+                    "1 ramita de apio",
+                    "1 taza de maíz pelado",
+                    "Aceite",
+                    "Sal y pimienta"
+                ],
+                preparacion: "1. En una olla grande, freír la cebolla y el ajo picados en un poco de aceite. 2. Añadir la carne de res cortada en trozos y cocinar hasta dorar. 3. Agregar las zanahorias, papas, arvejas y apio picados. 4. Añadir suficiente agua para cubrir todos los ingredientes y dejar cocinar a fuego medio. 5. Incorporar el chuño y el maíz pelado previamente cocidos. 6. Cocinar hasta que todos los ingredientes estén tiernos. Salpimentar al gusto y servir caliente."
+            }
+        ];
+
+        function buscar() {
+            const nombre = document.getElementById('nombre').value.toLowerCase();
+            let recetaEncontrada = null;
+
+            for (let i = 0; i < recetario.length; i++) {
+                if (recetario[i].nombre.toLowerCase().includes(nombre)) {
+                    recetaEncontrada = recetario[i];
+                    break;
+                }
+            }
+
+            if (recetaEncontrada) {
+                document.getElementById('title').innerText = recetaEncontrada.nombre; 
+                document.getElementById('ingredientes').innerText = "Ingredientes"; 
+                
+                const listaIngredientes = document.getElementById('lista_ingredientes');
+                listaIngredientes.innerHTML = ''; // Clear previous ingredients
+                const ulIngredientes = document.createElement('ul');
+                for (let i = 0; i < recetaEncontrada.ingredientes.length; i++) {
+                    const li = document.createElement('li');
+                    li.textContent = recetaEncontrada.ingredientes[i]; 
+                    ulIngredientes.appendChild(li); 
+                } 
+                listaIngredientes.appendChild(ulIngredientes);
+                
+                document.getElementById('preparacion').innerText = "Preparación"; 
+                document.getElementById('preparacion_texto').innerText = recetaEncontrada.preparacion; 
+            } else {
+                document.getElementById('title').innerText = "Receta no encontrada"; 
+                document.getElementById('ingredientes').innerText = ""; 
+                document.getElementById('lista_ingredientes').innerHTML = ''; 
+                document.getElementById('preparacion').innerText = ""; 
+                document.getElementById('preparacion_texto').innerText = ""; 
+            }
+        }
+    </script>
+
+    <footer>
+        <p>© 2024 Chef Zero Todos los derechos reservados.</p>
+        <ul>
+            <li><a href="#">Facebook</a></li>
+            <li><a href="#">Instagram</a></li>
+            <li><a href="#">Twitter</a></li>
+            <li><a href="#">LinkedIn</a></li>
+        </ul>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>
